@@ -36,5 +36,5 @@ const PORT = process.env.PORT;
 
 app.listen(
   PORT,
-  console.log("Server in https://l4rnrz4l-4000.asse.devtunnels.ms/")
+  console.log(`Server in https://l4rnrz4l-${PORT}.asse.devtunnels.ms/`)
 );
