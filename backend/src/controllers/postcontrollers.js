@@ -5,6 +5,7 @@ import User from "../models/userModel.js";
 export const getPosts = async (req, res) => {
   //obtain category from query
   const { postcategory } = req.query;
+
   try {
     //check if category is defined
     let posts;
@@ -24,6 +25,22 @@ export const getPosts = async (req, res) => {
 };
 //////////////////////////////////////////////////////////////////////////////
 
+export const getPostById = async (req, res) => {
+  const { idpost } = req.params;
+  try {
+    //does post exist?
+    const post = await Post.findById(idpost);
+    if (!post) {
+      return res.status(404).json({ error: "Post not found" });
+    } else {
+      res.status(200).json(post);
+    }
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+//////////////////////////////////////////////////////////////////////////////
+
 export const createPost = async (req, res) => {
   //obtain info from body
   const { postcategory, posttitle, postbody, postimg } = req.body;
@@ -34,10 +51,10 @@ export const createPost = async (req, res) => {
       return res.status(400).json({ error: "Unauthorized" });
     }
     //check length postitle
-    if (posttitle.length > 20) {
+    if (posttitle.length > 40) {
       return res
         .status(400)
-        .json({ error: "Post title cannot be longer than 20 characters" });
+        .json({ error: "Post title cannot be longer than 40 characters" });
     }
     if (!postcategory) {
       return res.status(400).json({ error: "A category must be selected" });
@@ -61,10 +78,10 @@ export const modifyPost = async (req, res) => {
   //fetch info from body
   const { postcategory, posttitle, postbody, postimg } = req.body;
   //fetch post id from params
-  const { id } = req.params;
+  const { idpost } = req.params;
   try {
     //check if post exist
-    const post = await Post.findById(id);
+    const post = await Post.findById(idpost);
     if (!post) {
       return res.status(404).json({ error: "Post not found" });
     }
@@ -82,7 +99,7 @@ export const modifyPost = async (req, res) => {
     }
     //update post
     const updatedPost = await Post.findByIdAndUpdate(
-      id,
+      idpost,
       { postcategory, posttitle, postbody, postimg },
       { new: true }
     );
@@ -99,10 +116,10 @@ export const modifyPost = async (req, res) => {
 
 export const deletePost = async (req, res) => {
   //fetch post id from params
-  const { id } = req.params;
+  const { idpost } = req.params;
   try {
     //find id
-    const post = await Post.findById(id);
+    const post = await Post.findById(idpost);
     if (!post) {
       return res.status(404).json({ error: "Post not found" });
     }
@@ -113,7 +130,7 @@ export const deletePost = async (req, res) => {
       return res.status(400).json({ error: "Unauthorized" });
     }
     //delete
-    await Post.findByIdAndDelete(id);
+    await Post.findByIdAndDelete(idpost);
     res.status(200).json({ message: "Post deleted" });
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -123,10 +140,10 @@ export const deletePost = async (req, res) => {
 
 export const likePost = async (req, res) => {
   //fetch post id
-  const { id } = req.params;
+  const { idpost } = req.params;
   try {
     //does post exist?
-    const post = await Post.findById(id);
+    const post = await Post.findById(idpost);
     if (!post) {
       return res.status(404).json({ error: "Post not found" });
     }
@@ -134,11 +151,19 @@ export const likePost = async (req, res) => {
     const userLikedPost = post.postlikes.includes(req.user._id);
     //create toggle to like and unlike
     if (userLikedPost) {
-      await Post.updateOne({ _id: id }, { $pull: { postlikes: req.user._id } });
-      res.status(200).json({ message: "Unliked" });
+      await Post.updateOne(
+        { _id: idpost },
+        { $pull: { postlikes: req.user._id } }
+      );
+      const updatedPost = await Post.findById(idpost);
+      res.status(200).json({ message: "Unliked", data: updatedPost.postlikes });
     } else {
-      await Post.updateOne({ _id: id }, { $push: { postlikes: req.user._id } });
-      res.status(200).json({ message: "Liked" });
+      await Post.updateOne(
+        { _id: idpost },
+        { $push: { postlikes: req.user._id } }
+      );
+      const updatedPost = await Post.findById(idpost);
+      res.status(200).json({ message: "Liked", data: updatedPost.postlikes });
     }
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -148,7 +173,7 @@ export const likePost = async (req, res) => {
 
 export const commentPost = async (req, res) => {
   //fetch post id from params
-  const { id } = req.params;
+  const { idpost } = req.params;
   //fetch information from body
   const observation = req.body.comment;
   try {
@@ -157,7 +182,7 @@ export const commentPost = async (req, res) => {
       return res.status(400).json({ error: "Comment cannot be empty" });
     }
     //check if post exist
-    const post = await Post.findById(id);
+    const post = await Post.findById(idpost);
     if (!post) {
       return res.status(404).json({ error: "Post not found" });
     }
@@ -231,10 +256,11 @@ export const deleteComment = async (req, res) => {
   const { idcomment } = req.params;
   //id post from params
   const { idpost } = req.params;
+
   try {
     //does post exist?
     const post = await Post.findById(idpost);
-    if (!post) return res.status(404).json({ error: "Post nof found" });
+    if (!post) return res.status(404).json({ error: "Post not found" });
 
     //does comment exist?
     const commentIndex = post.postcomments.findIndex((comment) => {
@@ -250,13 +276,13 @@ export const deleteComment = async (req, res) => {
       req.user._id.toString()
     ) {
       return res.status(400).json({ error: "Unauthorized" });
-    } 
+    }
 
-    //delete comment and save post; 
-    post.postcomments.splice(commentIndex, 1)
-    await post.save()
+    //delete comment and save post;
+    post.postcomments.splice(commentIndex, 1);
+    await post.save();
 
-    res.status(200).json({message: 'Comment deleted'})
+    res.status(200).json({ message: "Comment deleted" });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

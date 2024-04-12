@@ -1,6 +1,6 @@
 import User from "../models/userModel.js";
 import bcrypt from "bcrypt";
-import { generateTokenAndSetCookie } from "../utils/tokenAndCookie.js";
+import { createToken } from "../utils/tokenAndCookie.js";
 // import { v2 as cloudinary } from "cloudinary";
 
 //////////////////////////////////////////////////////////////////////////////
@@ -8,31 +8,31 @@ export const signup = async (req, res) => {
   //request info from body
   const { username, email, password } = req.body;
   try {
-    //check user doesn't exist
+    //check user exist
     const userName = await User.findOne({ username });
     const userEmail = await User.findOne({ email });
     if (userName)
-      return res.status(401).json({ error: "Username already exist" });
+      return res.status(401).json({ error: "Username already exists" });
     if (userEmail)
-      return res.status(401).json({ error: "Email already exist" });
+      return res.status(401).json({ error: "Email already exists" });
+    if (password.length < 6 || !password)
+      return res
+        .status(400)
+        .json({ error: "Password must contain at least 6 characters" });
     //secure password
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
+
     //else create user
     const newUser = await User.create({
-      username,
-      email,
+      username: username.toLowerCase(),
+      email: email.toLowerCase(),
       password: hashedPassword,
     });
     //response
-    if (newUser) {
-      generateTokenAndSetCookie(newUser._id, res);
-      res
-        .status(201)
-        .json({ _id: newUser._id, name: newUser.name, email: newUser.email });
-    } else {
-      res.satus(400).json({ error: "Incorrect Data" });
-    }
+    res
+      .status(201)
+      .json({ _id: newUser._id, name: newUser.name, email: newUser.email });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -52,10 +52,12 @@ export const login = async (req, res) => {
     if (!isPassword)
       return res.status(400).send({ error: "Incorrect password" });
 
-    generateTokenAndSetCookie(user._id, res);
+    const jwt = createToken(user._id);
 
     //response
-    res.status(200).send({ _id: user._id, name: user.name, email: user.email });
+    res
+      .status(200)
+      .send({ _id: user._id, username: user.username, jwt});
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -89,9 +91,7 @@ export const modifyUser = async (req, res) => {
     if (!user) return res.status(404).json({ error: "User not found" });
     //check that id token is the same has id params
     if (id !== userId.toString())
-      return res
-        .status(400)
-        .json({ error: "Unauthorized" });
+      return res.status(400).json({ error: "Unauthorized" });
     //define hashedPassword outside the if statement
     let hashedPassword = user.password;
     //check if there is a new password to hash
@@ -139,9 +139,7 @@ export const deleteUser = async (req, res) => {
     if (!user) return res.status(404).json({ error: "User not found" });
     //check id token with id params
     if (id !== userId.toString())
-      return res
-        .status(400)
-        .json({ error: "Unauthorized" });
+      return res.status(400).json({ error: "Unauthorized" });
     //find user and delete
     await User.findByIdAndDelete(userId);
 
@@ -154,7 +152,7 @@ export const deleteUser = async (req, res) => {
 export const logout = async (req, res) => {
   try {
     //method to delete jwtoken
-    res.cookie("jwt", "", { maxAge: 1 });
+    res.cookie("jwt", "", { maxAge: 0 });
     res.status(200).json({ message: "Logged out successfully" });
   } catch (err) {
     res.status(500).json({ error: err.message });

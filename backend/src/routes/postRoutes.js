@@ -5,6 +5,7 @@ import { authUser } from "../middleware/authUser.js";
 // //routes
 import {
   getPosts,
+  getPostById,
   createPost,
   modifyPost,
   deletePost,
@@ -18,15 +19,17 @@ const routes = Router();
 //routes
 routes.get("/", getPosts);
 
+routes.get("/:idpost", getPostById);
+
 routes.post("/create", authUser, createPost);
 
-routes.patch("/modify/:id", authUser, modifyPost);
+routes.patch("/modify/:idpost", authUser, modifyPost);
 
-routes.delete("/delete/:id", authUser, deletePost);
+routes.delete("/delete/:idpost", authUser, deletePost);
 
-routes.patch("/like/:id", authUser, likePost);
+routes.patch("/like/:idpost", authUser, likePost);
 
-routes.patch("/comment/:id", authUser, commentPost);
+routes.patch("/comment/:idpost", authUser, commentPost);
 
 routes.patch("/:idpost/modify/:idcomment", authUser, modifyComment)
 
