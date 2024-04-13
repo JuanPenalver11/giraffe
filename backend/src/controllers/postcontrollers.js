@@ -210,7 +210,7 @@ export const modifyComment = async (req, res) => {
     const postId = req.params.idpost;
     const commentId = req.params.idcomment;
     const newComment = req.body.newComment;
-
+    
     // check post
     const post = await Post.findById(postId);
 
