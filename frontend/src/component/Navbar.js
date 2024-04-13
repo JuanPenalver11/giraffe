@@ -6,15 +6,16 @@ import Logout from "./Logout";
 //recoil
 import { userAtom } from "../atoms/userAtom";
 
-
-
 const Navbar = () => {
   const user = useRecoilValue(userAtom);
-
   return (
     <nav className="navbar navbar-expand-lg bg-body-tertiary shadow p-3 mb-5">
-      <div className="container-fluid" >
-        <Link className="navbar-brand" to="/redirecthome" style={{fontSize:'30px'}}>
+      <div className="container-fluid">
+        <Link
+          className="navbar-brand"
+          to="/redirecthome"
+          style={{ fontSize: "30px" }}
+        >
           Giraffe
         </Link>
         <button
@@ -31,9 +32,48 @@ const Navbar = () => {
         <div className="collapse navbar-collapse" id="navbarNavDropdown">
           <ul className="navbar-nav ms-auto">
             {user ? (
-              <li className="nav-item">
-                <Logout />
-              </li>
+              <>
+                <li className="nav-item me-2">
+                  <div className="user d-flex ">
+                    <h4>{user.username}</h4>
+                    <button
+                      type="button"
+                      className="btn dropdown-toggle dropdown-toggle-split"
+                      data-bs-toggle="dropdown"
+                      aria-expanded="false"
+                    >
+                      <span className="visually-hidden" >Toggle Dropdown</span>
+                    </button>
+                    <ul
+                      className="dropdown-menu"
+                      style={{
+                        background: "rgb(222, 222, 222)",
+                      }}
+                    >
+                      
+                      <li>
+                        <Link className="dropdown-item" href="/profile">
+                          Profile
+                        </Link>
+                      </li>
+                      <li>
+                        <Link className="dropdown-item" to="/yourposts">
+                          Your Posts
+                        </Link>
+                      </li>
+                      <li>
+                        <Link className="dropdown-item" to="/createpost">
+                          Create Post
+                        </Link>
+                      </li>
+                    </ul>
+                  </div>
+                </li>
+                <li className="nav-item"></li>
+                <li className="nav-item">
+                  <Logout />
+                </li>
+              </>
             ) : (
               <>
                 {" "}
@@ -47,7 +87,7 @@ const Navbar = () => {
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <Link className="nav-link" to="/signup" >
+                  <Link className="nav-link" to="/signup">
                     Sign up
                   </Link>
                 </li>{" "}

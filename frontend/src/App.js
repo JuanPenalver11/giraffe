@@ -7,10 +7,12 @@ import Home from "./pages/Home";
 import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
 import Post from "./pages/Post";
+import CreatePost from "./pages/CreatePost";
 //component
 import Navbar from "./component/Navbar";
 //helper
 import RedirectHome from "./helpers/RedirectHome";
+import YourPosts from "./pages/YourPosts";
 
 function App() {
   const user = useRecoilValue(userAtom);
@@ -25,6 +27,10 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/post/:id" element={user ? <Post /> : <Home />} />
+        <Route path="/profile" element={""} />
+        <Route path="/createpost" element={user ? <CreatePost /> : <Home/>} />
+        <Route path="/yourposts" element={user ? <YourPosts /> : <Home/>} />
+
       </Routes>
     </div>
   );

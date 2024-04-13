@@ -17,6 +17,7 @@ const Post = () => {
   const [showModal, setShowModal] = useState(false);
   const [comment, setComment] = useState("");
   const [deletePost, setDeletePost] = useState(false);
+  const [modifyComment, setModifyComment] = useState(false)
 
   const { id } = useParams();
   //toast
@@ -37,11 +38,16 @@ const Post = () => {
       }
     };
     fetchData();
-  }, [id, enqueueSnackbar, comment, deletePost]);
+  }, [id, enqueueSnackbar, comment, deletePost, modifyComment]);
 
   const handleDeletePost = () => {
     setDeletePost((prev) => !prev);
   };
+
+  const handleModifyComment = () => {
+    setModifyComment((prev) => !prev);
+  };
+
 
   return (
     <div className="container my-5">
@@ -82,7 +88,12 @@ const Post = () => {
             </div>
             <hr />
             <div className="card-body">
-              <h5 className="card-title">{fetchData.posttitle}</h5>
+              <h5
+                className="card-title"
+                style={{ fontFamily: "Rampart One", fontSize: "27px" }}
+              >
+                {fetchData.posttitle}
+              </h5>
               <p className="card-text">{fetchData.postbody}</p>
               <div className="d-flex justify-content-end">
                 <p className="card-date">
@@ -100,6 +111,7 @@ const Post = () => {
                 <UserComment
                   fetchData={fetchData}
                   handleDeletePost={handleDeletePost}
+                  handleModifyComment={handleModifyComment}
                 />
               )}
             </div>

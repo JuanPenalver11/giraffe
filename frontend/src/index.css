@@ -15,6 +15,28 @@ body{
     border-bottom: 1px solid black;
 
 }
+
+.user{
+    position: relative;
+}
+
+.dropdown-menu{
+    position: absolute;
+    top:100%;
+    left:0%;
+    display:none;
+    
+}
+
+
+
+.dropdown-menu li:hover{
+    font-size: 22px;
+    transition: 0.2s;
+    color: rgb(243, 124, 111) !important;
+}
+
+
 /*Card*/
 .card{
     background-color: rgb(250, 205, 114);
@@ -32,5 +54,6 @@ body{
 
 /*filter*/
 .btn-filter:hover{
-    
+    font-size: 25px;
+    transition: 0.2s;
 }
