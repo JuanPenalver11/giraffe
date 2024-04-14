@@ -19,6 +19,7 @@ const Post = () => {
   const [deletePost, setDeletePost] = useState(false);
   const [modifyComment, setModifyComment] = useState(false)
 
+
   const { id } = useParams();
   //toast
   const { enqueueSnackbar } = useSnackbar();
@@ -54,7 +55,7 @@ const Post = () => {
       {showModal && <div className="modal-backdrop fade show"></div>}
       <div className="row justify-content-center">
         <div className="col-lg-6 col-sm-12">
-          <div className="card">
+          <div className="card" style={{borderRadius:'10px'}}>
             <img
               src="https://img.freepik.com/free-vector/hot-dog-street-snack-isolated-transparent_107791-18353.jpg"
               className="card-img-top"

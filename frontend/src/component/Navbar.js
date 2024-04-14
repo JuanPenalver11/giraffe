@@ -47,7 +47,7 @@ const Navbar = () => {
                     <ul
                       className="dropdown-menu"
                       style={{
-                        background: "rgb(222, 222, 222)",
+                        background: "white",
                       }}
                     >
                       
@@ -69,7 +69,6 @@ const Navbar = () => {
                     </ul>
                   </div>
                 </li>
-                <li className="nav-item"></li>
                 <li className="nav-item">
                   <Logout />
                 </li>

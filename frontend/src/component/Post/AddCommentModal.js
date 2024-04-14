@@ -54,10 +54,10 @@ const AddCommentModal = ({
       <div className="modal-dialog" role="document">
         <div
           className="modal-content"
-          style={{ background: "rgb(123, 193, 223" }}
+          style={{ background: "rgb(123, 193, 223", border:'1px solid'}}
         >
           <div className="modal-header d-flex justify-content-between">
-            <h5 className="modal-title">Add Comment</h5>
+            <h5 className="modal-title" style={{fontFamily:"Rampart One"}}>Add Comment</h5>
             <img src={giraffe} alt="giraffe-icon" style={{ width: "70px" }} />
           </div>
           <form>

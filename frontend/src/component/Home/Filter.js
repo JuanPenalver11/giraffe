@@ -6,13 +6,15 @@ const Filter = ({ handleCategory }) => {
   return (
     <div className="dropdown">
       <div
-        className="btn btn-secondary dropdown-toggle"
+        className="btn btn-secondary dropdown-toggle fs-5"
         data-bs-toggle="dropdown"
         aria-expanded="false"
         style={{
+          fontFamily: "Rampart One" ,
           background: "rgb(243, 159, 149)",
           border: "1px solid black",
-          color: "black",
+          color: "white",
+      
         }}
       >
         Filter
@@ -21,7 +23,7 @@ const Filter = ({ handleCategory }) => {
       <ul
         className="dropdown-menu"
         style={{
-          background: "rgb(222, 222, 222)",
+          background: "white",
           fontFamily: "Rampart One",
           color: "rgb(243, 124, 111)",
         }}

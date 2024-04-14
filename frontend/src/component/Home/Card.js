@@ -10,7 +10,7 @@ const Card = ({ fetchData }) => {
       {fetchData.map((data, index) => {
         return (
           <div
-            className="card my-3 shadow p-3 mb-5 rounded"
+            className="card shadow p-3 rounded m-3"
             style={{ width: "18rem" }}
             key={index}
           >

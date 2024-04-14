@@ -14,7 +14,7 @@ import hardrive from "../../images/floppy-disk.png";
 
 const UserComment = ({ fetchData, handleDeletePost, handleModifyComment }) => {
   const [modifyIndex, setModifyIndex] = useState(null);
-  const [save, setSave] = useState(true); // Corrected state initialization
+  const [save, setSave] = useState(true);
 
   const user = useRecoilValue(userAtom);
   const usercomment =
@@ -28,7 +28,7 @@ const UserComment = ({ fetchData, handleDeletePost, handleModifyComment }) => {
 
   const handleModify = (index) => {
     setModifyIndex(index === modifyIndex ? null : index);
-    setSave(true); // Reset save state when modification is triggered
+    setSave(true); 
   };
 
   return (
