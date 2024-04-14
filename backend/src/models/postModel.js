@@ -15,7 +15,7 @@ const postSchema = mongoose.Schema(
     posttitle: {
       type: String,
       required: true,
-      maxLength: 20,
+      maxLength: 60,
       unique: true,
     },
     postbody: {
