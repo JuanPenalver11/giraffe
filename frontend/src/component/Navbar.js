@@ -9,7 +9,7 @@ import { userAtom } from "../atoms/userAtom";
 const Navbar = () => {
   const user = useRecoilValue(userAtom);
   return (
-    <nav className="navbar navbar-expand-lg bg-body-tertiary shadow p-3 mb-5">
+    <nav className="navbar navbar-expand-lg bg-body-tertiary shadow p-3 mb-5 sticky-top">
       <div className="container-fluid">
         <Link
           className="navbar-brand"
@@ -34,7 +34,7 @@ const Navbar = () => {
             {user ? (
               <>
                 <li className="nav-item me-2">
-                  <div className="user d-flex ">
+                  <div className="user d-flex mt-3">
                     <h4>{user.username}</h4>
                     <button
                       type="button"
@@ -52,7 +52,7 @@ const Navbar = () => {
                     >
                       
                       <li>
-                        <Link className="dropdown-item" href="/profile">
+                        <Link className="dropdown-item" to="/profile">
                           Profile
                         </Link>
                       </li>
@@ -69,7 +69,7 @@ const Navbar = () => {
                     </ul>
                   </div>
                 </li>
-                <li className="nav-item">
+                <li className="nav-link">
                   <Logout />
                 </li>
               </>
@@ -78,7 +78,7 @@ const Navbar = () => {
                 {" "}
                 <li className="nav-item">
                   <Link
-                    className="nav-link active"
+                    className="nav-link"
                     aria-current="page"
                     to="/login"
                   >

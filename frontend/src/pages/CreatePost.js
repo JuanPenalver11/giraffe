@@ -1,6 +1,7 @@
 import React from 'react'
 //component 
 import Form from '../component/CreatePost/Form'
+
 const CreatePost = () => {
   return (
     <div className="container">
@@ -13,7 +14,7 @@ const CreatePost = () => {
               border: "1px solid black",
             }}
           >
-            <p className="fs-5 mt-2" style={{ fontFamily: "Rampart One" }}>
+            <p className="fs-5 mt-2" style={{ fontFamily: "Rampart One", color:'black' }}>
               Create Post
             </p>
           </span>

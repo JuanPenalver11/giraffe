@@ -12,16 +12,16 @@ const Logout = () => {
   //toaster
   const { enqueueSnackbar } = useSnackbar();
 
-
   const handleLogout = async () => {
     try {
       await axios.post(
         "https://l4rnrz4l-8000.asse.devtunnels.ms/api/user/logout"
       );
       localStorage.removeItem("user");
+      localStorage.removeItem("token");
       setUser(null);
     } catch (error) {
-      enqueueSnackbar(error.message, {variant:'error'})
+      enqueueSnackbar(error.message, { variant: "error" });
     }
   };
 

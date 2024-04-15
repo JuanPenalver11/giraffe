@@ -20,7 +20,7 @@ const Post = () => {
   const [modifyComment, setModifyComment] = useState(false)
 
 
-  const { id } = useParams();
+  const { idpost } = useParams();
   //toast
   const { enqueueSnackbar } = useSnackbar();
 
@@ -29,7 +29,7 @@ const Post = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `https://l4rnrz4l-8000.asse.devtunnels.ms/api/post/${id}`
+          `https://l4rnrz4l-8000.asse.devtunnels.ms/api/post/${idpost}`
         );
         setFetchData(response.data);
       } catch (error) {
@@ -39,7 +39,7 @@ const Post = () => {
       }
     };
     fetchData();
-  }, [id, enqueueSnackbar, comment, deletePost, modifyComment]);
+  }, [idpost, enqueueSnackbar, comment, deletePost, modifyComment]);
 
   const handleDeletePost = () => {
     setDeletePost((prev) => !prev);
@@ -122,7 +122,7 @@ const Post = () => {
       <AddCommentModal
         showModal={showModal}
         setShowModal={setShowModal}
-        idPost={id}
+        idPost={idpost}
         setComment={setComment}
         comment={comment}
       />

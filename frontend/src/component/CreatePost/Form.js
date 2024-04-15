@@ -56,9 +56,8 @@ const Form = () => {
       <form
         className="p-4 shadow rounded"
         style={{
-          background: "rgb(243, 159, 149)",
+          background: "rgb(123, 193, 223)",
           borderRadius: "15px",
-          backgroundColor: "rgb(243, 159, 149)",
           border: "solid 1px",
         }}
       >
@@ -66,10 +65,10 @@ const Form = () => {
           className="title d-flex justify-content-between"
           style={{
             fontFamily: "Rampart One",
-            borderBottom: "0.2px solid white",
+            borderBottom: "0.2px solid black",
           }}
         >
-          <h5 style={{ color: "white" }}>Create Post</h5>
+          <h5 style={{ color: "black" }}>Create Post</h5>
           <span>
             <img src={giraffe} alt="giraffe-icon" style={{ width: "70px" }} />
           </span>

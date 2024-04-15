@@ -8,8 +8,11 @@ import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
 import Post from "./pages/Post";
 import CreatePost from "./pages/CreatePost";
+import Profile from "./pages/Profile";
+import ModifyProfile from '../src/component/Profile/ModifyProfile'
 //component
 import Navbar from "./component/Navbar";
+import Footer from "./component/Footer";
 //helper
 import RedirectHome from "./helpers/RedirectHome";
 import YourPosts from "./pages/YourPosts";
@@ -26,12 +29,13 @@ function App() {
         <Route path="/:category" element={<Home />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
-        <Route path="/post/:id" element={user ? <Post /> : <Home />} />
-        <Route path="/profile" element={""} />
+        <Route path="/post/:idpost" element={user ? <Post /> : <Home />} />
+        <Route path="/profile" element={user ? <Profile /> : <Home />}/>
+        <Route path="/profile/:iduser" element={user ? <ModifyProfile /> : <Home />}/>
         <Route path="/createpost" element={user ? <CreatePost /> : <Home/>} />
         <Route path="/yourposts" element={user ? <YourPosts /> : <Home/>} />
-
       </Routes>
+      <Footer/>
     </div>
   );
 }

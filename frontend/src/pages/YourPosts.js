@@ -59,7 +59,7 @@ const YourPosts = () => {
               border: "1px solid black",
             }}
           >
-            <p className="fs-5 mt-2" style={{ fontFamily: "Rampart One" }}>
+            <p className="fs-5 mt-2" style={{ fontFamily: "Rampart One", color:'black'}}>
               Your Posts
             </p>
           </span>

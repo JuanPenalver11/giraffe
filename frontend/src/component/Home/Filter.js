@@ -13,7 +13,7 @@ const Filter = ({ handleCategory }) => {
           fontFamily: "Rampart One" ,
           background: "rgb(243, 159, 149)",
           border: "1px solid black",
-          color: "white",
+          color: "black",
       
         }}
       >
