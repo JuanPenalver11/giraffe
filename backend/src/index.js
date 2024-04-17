@@ -2,12 +2,13 @@
 import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
-// import { v2 as cloudinary } from "cloudinary";
+import { v2 as cloudinary } from "cloudinary";
 //utils
 import { dbConnect } from "./utils/dbConnection.js";
 //routes
 import userRoutes from "./routes/userRoutes.js";
 import postRoutes from "./routes/postRoutes.js";
+
 
 const app = express();
 
@@ -15,12 +16,12 @@ dotenv.config();
 
 dbConnect();
 
-// //cloudinary api
-// cloudinary.config({
-//   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-//   api_key: process.env.CLOUDINARY_API_KEY,
-//   api_secret: process.env.CLOUDINARY_API_SECRET,
-// });
+//cloudinary api
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 //middlewares
 app.use(express.json({ limit: "60mb" }));

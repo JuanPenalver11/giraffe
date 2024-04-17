@@ -1,5 +1,6 @@
 import Post from "../models/postModel.js";
 import User from "../models/userModel.js";
+import { v2 as cloudinary } from "cloudinary";
 //////////////////////////////////////////////////////////////////////////////
 
 export const getPosts = async (req, res) => {
@@ -51,22 +52,33 @@ export const createPost = async (req, res) => {
       return res.status(400).json({ error: "Unauthorized" });
     }
     //check length postitle
-    if (posttitle.length > 40) {
+    if (posttitle?.length > 40) {
       return res
         .status(400)
         .json({ error: "Post title cannot be longer than 40 characters" });
     }
+    if (!posttitle) {
+      return res.status(400).json({ error: "Please, give a title to your post" });
+    }
     if (!postcategory) {
       return res.status(400).json({ error: "A category must be selected" });
     }
+    
+    //then upload new picture
+    if (!postimg) {
+      return res.status(400).json({ error: "Please, upload an image" });
+    }
+    const uploadedResponse = await cloudinary.uploader.upload(postimg);
+
     //create post
     const newPost = await Post.create({
       postedBy: user._id,
       postcategory,
       posttitle,
       postbody,
-      postimg,
+      postimg: uploadedResponse.secure_url,
     });
+
     res.status(200).json(newPost);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -76,7 +88,9 @@ export const createPost = async (req, res) => {
 
 export const modifyPost = async (req, res) => {
   //fetch info from body
-  const { postcategory, posttitle, postbody, postimg } = req.body;
+  const { postcategory, posttitle, postbody } = req.body;
+
+  let { postimg } = req.body;
   //fetch post id from params
   const { idpost } = req.params;
   try {
@@ -92,11 +106,25 @@ export const modifyPost = async (req, res) => {
     if (user._id.toString() !== req.user._id.toString())
       return res.status(400).json({ error: "Unauthorized" });
     //check title legth
-    if (posttitle && posttitle > 20) {
+    if (posttitle && posttitle.length > 40) {
       return res
         .status(400)
-        .json({ error: "Post title cannot be longer than 20 characters" });
+        .json({ error: "Post title cannot be longer than 40 characters" });
     }
+
+    //modify image
+    if (postimg && postimg !== post.postimg) {
+      if (post.postimg) {
+        await cloudinary.uploader.destroy(
+          post.postimg.split("/").pop().split(".")[0]
+        );
+      }
+      const uploadedResponse = await cloudinary.uploader.upload(postimg);
+      postimg = uploadedResponse.secure_url;
+    } else{
+      postimg = post.image
+    }
+
     //update post
     const updatedPost = await Post.findByIdAndUpdate(
       idpost,
@@ -105,7 +133,7 @@ export const modifyPost = async (req, res) => {
     );
 
     if (!updatedPost) {
-      return res.send(404).json({ error: "Post nof found" });
+      return res.status(404).json({ error: "Post nof found" });
     }
     res.status(200).json(updatedPost);
   } catch (err) {
@@ -210,7 +238,7 @@ export const modifyComment = async (req, res) => {
     const postId = req.params.idpost;
     const commentId = req.params.idcomment;
     const newComment = req.body.newComment;
-    
+
     // check post
     const post = await Post.findById(postId);
 
@@ -236,7 +264,7 @@ export const modifyComment = async (req, res) => {
       return res.status(403).json({ error: "Unauthorized" });
     }
 
-    //Modifuy comment and save
+    //Modify comment and save
     post.postcomments[commentIndex].comment = newComment;
     await post.save();
 

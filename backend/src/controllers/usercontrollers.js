@@ -1,7 +1,7 @@
 import User from "../models/userModel.js";
 import bcrypt from "bcrypt";
 import { createToken } from "../utils/tokenAndCookie.js";
-// import { v2 as cloudinary } from "cloudinary";
+import { v2 as cloudinary } from "cloudinary";
 
 //////////////////////////////////////////////////////////////////////////////
 export const signup = async (req, res) => {
@@ -55,9 +55,7 @@ export const login = async (req, res) => {
     const jwt = createToken(user._id);
 
     //response
-    res
-      .status(200)
-      .send({ _id: user._id, username: user.username, jwt});
+    res.status(200).send({ _id: user._id, username: user.username, jwt });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -99,18 +97,12 @@ export const modifyUser = async (req, res) => {
       const salt = await bcrypt.genSalt(10);
       hashedPassword = await bcrypt.hash(password, salt);
     }
-    // //define image outside statemen
-    // let profilePic = user.profilePic
-    // //check if there is a new profile picture
-    // if (profilePic){
-    //     //if there is already a picture destoy it in cloudinary
-    //     if(user.profilePic){
-    //         await cloudinary.uploader.destroy(user.profilePic.split('/').pop().split('.')[0])
-    //     }
-    //     //then upload new picture
-    //     const uploadedResponse = await cloudinary.uploader.upload(profilePic)
-    //     profilePic = uploadedResponse.secure_url
-    // }
+
+  
+    //then upload new picture
+    const uploadedResponse = await cloudinary.uploader.upload(profilePic);
+    profilePic = uploadedResponse.secure_url;
+
     //update user
     const updateUser = await User.findByIdAndUpdate(
       id,
