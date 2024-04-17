@@ -69,6 +69,7 @@ const SignupPage = () => {
                 onChange={(e) => {
                   setUsername(e.target.value);
                 }}
+                required
               />
             </div>
             <div className="mb-3 mt-3">
@@ -84,6 +85,8 @@ const SignupPage = () => {
                 onChange={(e) => {
                   setEmail(e.target.value);
                 }}
+                required
+
               />
             </div>
             <div className="mb-3">
@@ -99,6 +102,7 @@ const SignupPage = () => {
                 onChange={(e) => {
                   setPassword(e.target.value);
                 }}
+                required
               />
             </div>
             <button type="submit" className="btn btn-primary">

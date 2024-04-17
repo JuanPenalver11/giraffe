@@ -1,16 +1,16 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-//avatar
-import avatar from "../../images/juan.jpg";
 //icons
 import giraffe from "../../images/giraffeformuser.png";
+import avatar from '../../images/user.png'
 //helper
 import { prettyDate } from "../../helpers/prettydate";
 //component
 import DeleteModal from "./DeleteModal";
 
-const Form = ({ fetchData }) => {
+const Card = ({ fetchData }) => {
   const [showModal, setShowModal] = useState(false);
+
 
   return (
     <div className="container">
@@ -36,21 +36,21 @@ const Form = ({ fetchData }) => {
           </span>
         </div>
         <div className="row d-flex justify-content-around">
-          <div className="col-lg-6 col-sm-12 ms-3 mt-3 d-flex justify-content-center">
+          <div className="col-lg-6 col-md-9 col-sm-12 ms-3 mt-3 d-flex justify-content-center">
             <span>
               <img
-                src={avatar}
+                src={fetchData.profilePic || avatar}
                 alt=""
                 style={{
                   borderRadius: "50%",
-                  width: "200px",
-                  height: "200px",
+                  width: "150px",
+                  height: "150px",
                   border: "1px solid black",
                 }}
               />
             </span>
           </div>
-          <div className="col-lg-6 col-sm-12 p-5">
+          <div className="col-lg-10 col-md-11 col-sm-12 p-5">
             <div style={{ marginBottom: "40px" }}>
               <h5 style={{ borderBottom: "1px solid black" }}>UserName</h5>
               <h6>{fetchData.username}</h6>
@@ -83,4 +83,4 @@ const Form = ({ fetchData }) => {
   );
 };
 
-export default Form;
+export default Card;

@@ -5,6 +5,7 @@ import { prettyDate } from "../../helpers/prettydate";
 import { sticker } from "../../helpers/sticker";
 
 const Card = ({ fetchData }) => {
+
   return (
     <>
       {fetchData.map((data, index) => {
@@ -14,7 +15,7 @@ const Card = ({ fetchData }) => {
             style={{ width: "18rem" }}
             key={index}
           >
-            <img src="..." className="card-img-top" alt="..." />
+            <img src={data.postimg} className="card-img-top" alt="post-img"  style={{width:'250px'}}/>
 
             <div className="card-body">
               <h5

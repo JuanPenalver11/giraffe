@@ -35,9 +35,9 @@ const LoginPage = () => {
       );
       setUsername("");
       setPassword("");
-      navigate("/");
       localStorage.setItem("token", response.data.jwt);
       localStorage.setItem("user", JSON.stringify(response.data));
+      navigate("/");
       setUser(response.data);
     } catch (error) {
       enqueueSnackbar(error.response.data.error, { variant: "error" });
@@ -69,6 +69,7 @@ const LoginPage = () => {
                 name="username"
                 value={username}
                 onChange={(e) => setUsername(e.target.value.toLowerCase())}
+                required
               />
             </div>
             <div className="mb-3">
@@ -83,6 +84,8 @@ const LoginPage = () => {
                 name="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                required
+
               />
             </div>
             <div className="form-check mb-3">

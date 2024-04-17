@@ -4,19 +4,18 @@ import { useRecoilValue } from "recoil";
 import { useParams } from "react-router-dom";
 //recoil
 import { userAtom } from "../../../atoms/userAtom";
-//icon
 
-const DeleteCommentHook = ({handleDeletePost}) => {
+const useDeleteCommentHook = ({handleDeletePost}) => {
   const { enqueueSnackbar } = useSnackbar();
 
-  const { id } = useParams();
+  const { idpost } = useParams();
 
   const user = useRecoilValue(userAtom);
 
   const handleDelete = async (arg) => {
     try {
       await axios.delete(
-        `https://l4rnrz4l-8000.asse.devtunnels.ms/api/post/${id}/delete/${arg}`,
+        `https://l4rnrz4l-8000.asse.devtunnels.ms/api/post/${idpost}/delete/${arg}`,
         {
           headers: { Authorization: `Bearer ${user.jwt}` },
         }
@@ -30,4 +29,4 @@ const DeleteCommentHook = ({handleDeletePost}) => {
   return {handleDelete};
 };
 
-export default DeleteCommentHook;
+export default useDeleteCommentHook;

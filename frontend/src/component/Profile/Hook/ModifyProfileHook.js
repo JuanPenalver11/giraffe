@@ -3,9 +3,13 @@ import { useSnackbar } from "notistack";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-const ModifyProfileHook = ({ fetchdata, user }) => {
-  const [username, setUsername] = useState(fetchdata ? fetchdata.username : '');
-  const [email, setEmail] = useState(fetchdata ? fetchdata.email : '');
+const useModifyProfileHook = ({ fetchData, user, setProfile }) => {
+  const [username, setUsername] = useState(fetchData?.username);
+  const [email, setEmail] = useState(fetchData?.email);
+  const [image, setImage] = useState(fetchData?.profilePic);
+
+
+
   const [loading, setLoading] = useState(false);
 
   const { enqueueSnackbar } = useSnackbar();
@@ -16,7 +20,10 @@ const ModifyProfileHook = ({ fetchdata, user }) => {
     const data = {
       username: username,
       email: email,
+      profilePic: image,
+
     };
+
     setLoading(true);
     try {
       await axios.patch(
@@ -26,6 +33,12 @@ const ModifyProfileHook = ({ fetchdata, user }) => {
           headers: { Authorization: `Bearer ${user.jwt}` },
         }
       );
+      const userData = JSON.parse(localStorage.getItem("user"));
+      if (userData) {
+        userData.username = username;
+        localStorage.setItem("user", JSON.stringify(userData))
+        setProfile(data)
+      }
     } catch (error) {
       enqueueSnackbar(error.response.data.error, { variant: "error" });
     } finally {
@@ -34,7 +47,7 @@ const ModifyProfileHook = ({ fetchdata, user }) => {
     }
   };
 
-  return { setUsername, setEmail, loading, triggerModifyProfile };
+  return { setUsername, setEmail, loading, triggerModifyProfile, setImage };
 };
 
-export default ModifyProfileHook;
+export default useModifyProfileHook;

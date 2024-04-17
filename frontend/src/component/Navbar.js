@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 //component
@@ -6,8 +6,17 @@ import Logout from "./Logout";
 //recoil
 import { userAtom } from "../atoms/userAtom";
 
-const Navbar = () => {
+const Navbar = ({profile}) => {
   const user = useRecoilValue(userAtom);
+
+  const [userName, setUserName] = useState(user.username);
+
+  useEffect(()=>{
+  if(!!profile){
+    setUserName(profile.username)
+  }
+  },[profile])
+
   return (
     <nav className="navbar navbar-expand-lg bg-body-tertiary shadow p-3 mb-5 sticky-top">
       <div className="container-fluid">
@@ -35,14 +44,14 @@ const Navbar = () => {
               <>
                 <li className="nav-item me-2">
                   <div className="user d-flex mt-3">
-                    <h4>{user.username}</h4>
+                   <h4>{userName}</h4>
                     <button
                       type="button"
                       className="btn dropdown-toggle dropdown-toggle-split"
                       data-bs-toggle="dropdown"
                       aria-expanded="false"
                     >
-                      <span className="visually-hidden" >Toggle Dropdown</span>
+                      <span className="visually-hidden">Toggle Dropdown</span>
                     </button>
                     <ul
                       className="dropdown-menu"
@@ -50,7 +59,6 @@ const Navbar = () => {
                         background: "white",
                       }}
                     >
-                      
                       <li>
                         <Link className="dropdown-item" to="/profile">
                           Profile
@@ -77,11 +85,7 @@ const Navbar = () => {
               <>
                 {" "}
                 <li className="nav-item">
-                  <Link
-                    className="nav-link"
-                    aria-current="page"
-                    to="/login"
-                  >
+                  <Link className="nav-link" aria-current="page" to="/login">
                     Log in
                   </Link>
                 </li>

@@ -12,8 +12,7 @@ const YourPosts = () => {
   const [fetchData, setFetchData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [deletePost, setDeletePost] = useState(false);
-  const [showModal, setShowModal] = useState(false);
-  const [modifyPost, setModifyPost] = useState(false);
+
 
   const user = useRecoilValue(userAtom);
 
@@ -34,22 +33,17 @@ const YourPosts = () => {
       }
     };
     handleFetchData();
-  }, [enqueueSnackbar, deletePost, modifyPost]);
+  }, [enqueueSnackbar, deletePost]);
 
   const handleDeletePost = () => {
     setDeletePost((prev) => !prev);
   };
 
 
-  const handleModifyPost = ()=>{
-    setModifyPost((prev) => !prev);
-
-  }
   const userPosts = fetchData.filter((data) => data.postedBy === user._id);
 
   return (
     <div className="container">
-      {showModal && <div className="modal-backdrop fade show"></div>}
       <div className="row">
         <div className="col-12">
           <span
@@ -59,7 +53,10 @@ const YourPosts = () => {
               border: "1px solid black",
             }}
           >
-            <p className="fs-5 mt-2" style={{ fontFamily: "Rampart One", color:'black'}}>
+            <p
+              className="fs-5 mt-2"
+              style={{ fontFamily: "Rampart One", color: "black" }}
+            >
               Your Posts
             </p>
           </span>
@@ -67,15 +64,13 @@ const YourPosts = () => {
       </div>
       <div className="row">
         <div className="col-12 d-flex flex-wrap justify-content-center">
+          
           {loading ? (
             <Spinner />
-          ) : (
+          ) : userPosts.length === 0 ? (<h1 style={{ color: "white", margin:'200px'}}>You dont' have Post.</h1>) : (
             <Card
               userPosts={userPosts}
               handleDeletePost={handleDeletePost}
-              showModal={showModal}
-              setShowModal={setShowModal}
-              handleModifyPost={handleModifyPost}
             />
           )}
         </div>

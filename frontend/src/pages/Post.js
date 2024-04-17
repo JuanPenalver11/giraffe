@@ -17,8 +17,7 @@ const Post = () => {
   const [showModal, setShowModal] = useState(false);
   const [comment, setComment] = useState("");
   const [deletePost, setDeletePost] = useState(false);
-  const [modifyComment, setModifyComment] = useState(false)
-
+  const [modifyComment, setModifyComment] = useState(false);
 
   const { idpost } = useParams();
   //toast
@@ -49,19 +48,25 @@ const Post = () => {
     setModifyComment((prev) => !prev);
   };
 
-
   return (
     <div className="container my-5">
       {showModal && <div className="modal-backdrop fade show"></div>}
       <div className="row justify-content-center">
         <div className="col-lg-6 col-sm-12">
-          <div className="card" style={{borderRadius:'10px'}}>
-            <img
-              src="https://img.freepik.com/free-vector/hot-dog-street-snack-isolated-transparent_107791-18353.jpg"
-              className="card-img-top"
-              alt="..."
-              style={{ padding: "10px", borderRadius: "10px 10px 0 0" }}
-            />
+          <div className="card" style={{ borderRadius: "10px" }}>
+            <div className="mx-auto">
+              <img
+                src={fetchData.postimg}
+                className="card-img-top"
+                alt={fetchData.posttitle}
+                style={{
+                  padding: "10px",
+                  borderRadius: "20px",
+                  width: "350px",
+                }}
+              />
+            </div>
+
             <div className="card-icons d-flex justify-content-between">
               <div className="card-category ms-3 mt-3">
                 <span>
@@ -107,7 +112,7 @@ const Post = () => {
             </div>
             <div className="card-footer">
               {fetchData.postcomments?.length === 0 ? (
-                "There are no comments"
+                <p className="m-4">There are no comments</p>
               ) : (
                 <UserComment
                   fetchData={fetchData}

@@ -2,15 +2,13 @@ import React, { useState } from "react";
 import { useRecoilValue } from "recoil";
 import { userAtom } from "../../atoms/userAtom";
 //hooks
-import DeleteCommentHook from "./Hooks/DeleteCommentHook";
-import ModifyCommentHook from "./Hooks/ModifyCommentHook";
+import useDeleteCommentHook from "./Hooks/DeleteCommentHook";
+import useModifyCommentHook from './Hooks/ModifyCommentHook'
 //icons
 import modify from "../../images/compose.png";
 import garbage from "../../images/garbage.png";
-import giraffe from "../../images/giraffe3.png";
 import hardrive from "../../images/floppy-disk.png";
-
-
+import avatar from "../../images/user.png";
 
 const UserComment = ({ fetchData, handleDeletePost, handleModifyComment }) => {
   const [modifyIndex, setModifyIndex] = useState(null);
@@ -21,14 +19,14 @@ const UserComment = ({ fetchData, handleDeletePost, handleModifyComment }) => {
     fetchData && fetchData.postcomments ? fetchData.postcomments : [];
 
   // Hooks
-  const { handleDelete } = DeleteCommentHook({ handleDeletePost });
-  const { setModifyComment, triggerModification } = ModifyCommentHook({
+  const { handleDelete } = useDeleteCommentHook({ handleDeletePost });
+  const { setModifyComment, triggerModification } = useModifyCommentHook({
     handleModifyComment,
   });
 
   const handleModify = (index) => {
     setModifyIndex(index === modifyIndex ? null : index);
-    setSave(true); 
+    setSave(true);
   };
 
   return (
@@ -48,15 +46,20 @@ const UserComment = ({ fetchData, handleDeletePost, handleModifyComment }) => {
             <div className="user-info d-flex" style={{ width: "100% " }}>
               <div className="user-img">
                 <img
-                  src={giraffe}
-                  alt="giraffe"
-                  style={{ width: "30px", margin: "15px" }}
+                  src={comment.userProfilePic || avatar}
+                  alt="user pic"
+                  style={{
+                    borderRadius: "50%",
+                    height: "30px",
+                    width: "30px",
+                    margin: "15px",
+                  }}
                 />
               </div>
 
               <div className="user-info m-2" style={{ width: "100%" }}>
                 <div className="d-flex">
-                <p style={{ fontWeight: "bold" }}>{comment.username}</p> 
+                  <p style={{ fontWeight: "bold" }}>{comment.username}</p>
                 </div>
                 {modifyIndex === index && save ? (
                   <form className="d-flex flex-wrap">
@@ -68,14 +71,14 @@ const UserComment = ({ fetchData, handleDeletePost, handleModifyComment }) => {
                       style={{ width: "80% ", padding: "5px" }}
                     ></textarea>
 
-                  <button
+                    <button
                       className="btn"
                       onClick={(e) => {
                         e.preventDefault();
                         triggerModification(comment._id);
                         setSave(false);
                       }}
-                      style={{width:'5px', marginLeft:'-13px'}}
+                      style={{ width: "5px", marginLeft: "-13px" }}
                     >
                       <img
                         src={hardrive}
@@ -90,7 +93,10 @@ const UserComment = ({ fetchData, handleDeletePost, handleModifyComment }) => {
               </div>
             </div>
             {user._id === comment.userId && (
-              <div className="user-actions d-flex flex-wrap me-2" style={{width:'10%'}}>
+              <div
+                className="user-actions d-flex flex-wrap me-2"
+                style={{ width: "10%" }}
+              >
                 <button
                   className="btn"
                   onClick={() => {

@@ -6,14 +6,14 @@ import { useRecoilValue } from "recoil";
 //recoil
 import { userAtom } from "../../../atoms/userAtom";
 
-const ModifyCommentHook = ({ handleModifyComment}) => {
+const useModifyCommentHook = ({ handleModifyComment}) => {
   const [modifyComment, setModifyComment] = useState();
 
 
 
   const { enqueueSnackbar } = useSnackbar();
 
-  const { id } = useParams();
+  const { idpost } = useParams();
 
   const user = useRecoilValue(userAtom);
 
@@ -26,7 +26,7 @@ const ModifyCommentHook = ({ handleModifyComment}) => {
 
     try {
       await axios.patch(
-        `https://l4rnrz4l-8000.asse.devtunnels.ms/api/post/${id}/modify/${arg}`,
+        `https://l4rnrz4l-8000.asse.devtunnels.ms/api/post/${idpost}/modify/${arg}`,
         { newComment },
         { headers: { Authorization: `Bearer ${user.jwt}` } }
       );
@@ -42,4 +42,4 @@ const ModifyCommentHook = ({ handleModifyComment}) => {
   return {setModifyComment, triggerModification};
 };
 
-export default ModifyCommentHook;
+export default useModifyCommentHook;

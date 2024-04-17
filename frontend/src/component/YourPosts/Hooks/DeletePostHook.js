@@ -5,7 +5,7 @@ import { useSnackbar } from "notistack";
 //recoil
 import { userAtom } from "../../../atoms/userAtom";
 
-const DeletePostHook = ({handleDeletePost}) => {
+const useDeletePostHook = ({handleDeletePost}) => {
   const [loading, setLoading] = useState(false);
 
   const user = useRecoilValue(userAtom);
@@ -32,4 +32,4 @@ const DeletePostHook = ({handleDeletePost}) => {
   return {loading, triggerDeletePost};
 };
 
-export default DeletePostHook;
+export default useDeletePostHook;

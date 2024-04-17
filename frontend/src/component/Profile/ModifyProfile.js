@@ -9,7 +9,7 @@ import Spinner from "../Spinner";
 import Form from './Form'
 
 
-const ModifyProfile = () => {
+const ModifyProfile = ({setProfile}) => {
   const [fetchData, setFetchData] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -62,7 +62,7 @@ const ModifyProfile = () => {
           {loading ? (
             <Spinner />
           ) : (
-            <Form fetchData={fetchData} user={user}/>
+            <Form fetchData={fetchData} user={user} setProfile={setProfile}/>
           )}
         </div>
       </div>

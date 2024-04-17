@@ -1,13 +1,22 @@
-import React, { useState } from "react";
-import { categories } from "../../helpers/categories";
+import React, { useState, useRef } from "react";
 import { useRecoilValue } from "recoil";
 import { useSnackbar } from "notistack";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 //icon
 import giraffe from "../../images/giraffe-bg-activity.png";
+import upload from "../../images/upload.png";
+import avatar from "../../images/user.png";
+import paper from "../../images/paper.png";
 //recoil
 import { userAtom } from "../../atoms/userAtom";
+//hook
+import usePrevImgHook from "../../Hook/usePrevImgHook";
+//component
+import Spinner from "../Spinner";
+//helper 
+import { categories } from "../../helpers/categories";
+
 
 const Form = () => {
   const [selectedCategory, setSelectedCategory] = useState("");
@@ -16,10 +25,15 @@ const Form = () => {
     setSelectedCategory(categoryName);
   };
 
+  const fileRef = useRef(null);
+
+  const { handleImgChange, imgUrl } = usePrevImgHook();
+
   const [titlePost, SetTitlePost] = useState("");
   const [bodyPost, SetBodyPost] = useState("");
   const [imgPost, SetImgPost] = useState("");
   const [categoryPost, SetCategoryPost] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const user = useRecoilValue(userAtom);
 
@@ -28,6 +42,8 @@ const Form = () => {
   const navigate = useNavigate();
 
   const createPost = async () => {
+    setLoading(true);
+
     const data = {
       postcategory: categoryPost,
       posttitle: titlePost,
@@ -48,6 +64,8 @@ const Form = () => {
       navigate("/yourposts");
     } catch (error) {
       enqueueSnackbar(error.response.data.error, { variant: "error" });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -73,11 +91,51 @@ const Form = () => {
             <img src={giraffe} alt="giraffe-icon" style={{ width: "70px" }} />
           </span>
         </div>
-        <div className="title-holder d-flex flex-column mt-4">
-          <label htmlFor="title" className="title-form">
-            Post Image
-          </label>
-          <input type="text" id="title" />
+        <div className="mt-4">
+          <label>Post Image</label>
+        </div>
+        <div className="img-holder d-flex flex-wrap mt-1">
+          <span>
+            <img
+              src={imgUrl || avatar}
+              alt="profile pic"
+              style={{
+                width: "250px",
+                height: "250px",
+                border: "1px solid black",
+              }}
+            />
+          </span>
+          <div className="btn-container">
+            <div className="upload-div">
+              <button
+                className="btn"
+                style={{ border: "none", background: "rgb(123, 193, 223)" }}
+                onClick={(e) => {
+                  e.preventDefault();
+                  fileRef.current.click();
+                }}
+              >
+                <img src={upload} alt="upload" style={{ width: "25px" }} />{" "}
+              </button>
+              <input
+                className="form-control"
+                type="file"
+                hidden
+                ref={fileRef}
+                onChange={handleImgChange}
+              />
+                 <button
+                className="btn"
+                onClick={(e) => {
+                  e.preventDefault();
+                  SetImgPost(imgUrl);
+                }}
+              >
+                <img src={paper} alt="upload" style={{ width: "25px" }} />{" "}
+              </button>
+            </div>
+          </div>
         </div>
         <div className="title-holder d-flex flex-column mt-3">
           <label htmlFor="title" className="title-form">
@@ -85,11 +143,12 @@ const Form = () => {
           </label>
           <input
             type="text"
-            id="title"
+            id="posttTitle"
             style={{ padding: "10px" }}
             onChange={(e) => {
               SetTitlePost(e.target.value);
             }}
+            required
           />
         </div>
         <div className="body-holder d-flex flex-column mt-3">
@@ -98,11 +157,12 @@ const Form = () => {
           </label>
           <textarea
             type="text"
-            id="body"
+            id="postBody"
             style={{ padding: "10px" }}
             onChange={(e) => {
               SetBodyPost(e.target.value);
             }}
+            required
           ></textarea>
         </div>
         <div className="category-holder  m-3">
@@ -113,9 +173,9 @@ const Form = () => {
           >
             {categories.map((category, index) => {
               return (
-                <div class="form-check m-3" key={index}>
+                <div className="form-check m-3" key={index}>
                   <input
-                    class="form-check-input"
+                    className="form-check-input"
                     type="radio"
                     name="category"
                     value={category.name}
@@ -127,8 +187,8 @@ const Form = () => {
                     }}
                   />
                   <label
-                    class="form-check-label"
-                    for={`flexRadioDefault${index}`}
+                    className="form-check-label"
+                    htmlFor={`flexRadioDefault${index}`}
                     style={{ color: "white" }}
                   >
                     <span>
@@ -146,8 +206,12 @@ const Form = () => {
           </div>
         </div>
         <div className="btn-holder d-flex justify-content-end mt-5">
-          <button type="button" class="btn btn-primary" onClick={createPost}>
-            Create Post
+          <button
+            type="button"
+            className="btn btn-primary"
+            onClick={createPost}
+          >
+            {loading ? <Spinner /> : "Create Post"}
           </button>
         </div>
       </form>
