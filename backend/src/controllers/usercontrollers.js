@@ -2,6 +2,7 @@ import User from "../models/userModel.js";
 import bcrypt from "bcrypt";
 import { createToken } from "../utils/tokenAndCookie.js";
 import { v2 as cloudinary } from "cloudinary";
+const avatar = 'user.png'
 
 //////////////////////////////////////////////////////////////////////////////
 export const signup = async (req, res) => {
@@ -28,6 +29,7 @@ export const signup = async (req, res) => {
       username: username.toLowerCase(),
       email: email.toLowerCase(),
       password: hashedPassword,
+      profilePic: avatar
     });
     //response
     res

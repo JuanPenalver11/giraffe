@@ -20,7 +20,9 @@ import RedirectHome from "./helpers/RedirectHome";
 import YourPosts from "./pages/YourPosts";
 
 function App() {
+
   const user = useRecoilValue(userAtom);
+
 
   const [profile, setProfile] = useState(null);
 

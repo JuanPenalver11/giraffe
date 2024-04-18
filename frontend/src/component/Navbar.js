@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, {useState, useEffect}from "react";
 import { Link } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 //component
@@ -7,13 +7,19 @@ import Logout from "./Logout";
 import { userAtom } from "../atoms/userAtom";
 
 const Navbar = ({profile}) => {
+
   const user = useRecoilValue(userAtom);
 
-  const [userName, setUserName] = useState(user.username);
+  console.log(user)
+
+  const userLocal = JSON.parse(localStorage.getItem("user"));
+  
+  const [userName, setUserName] = useState(userLocal?.username );
+
 
   useEffect(()=>{
   if(!!profile){
-    setUserName(profile.username)
+    setUserName(profile)
   }
   },[profile])
 
@@ -44,7 +50,7 @@ const Navbar = ({profile}) => {
               <>
                 <li className="nav-item me-2">
                   <div className="user d-flex mt-3">
-                   <h4>{userName}</h4>
+                   <h4>{userName === user?.username ? userName : userLocal?.username}</h4>
                     <button
                       type="button"
                       className="btn dropdown-toggle dropdown-toggle-split"

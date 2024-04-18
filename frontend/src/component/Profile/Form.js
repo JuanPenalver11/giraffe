@@ -11,18 +11,25 @@ import usePrevImgHook from "../../Hook/usePrevImgHook";
 import Spinner from "../Spinner";
 
 const Form = ({ fetchData, user, setProfile }) => {
-  
-  
   const { setEmail, setUsername, setImage, loading, triggerModifyProfile } =
     useModifyProfileHook({
       fetchData,
       user,
-      setProfile
+      setProfile,
     });
 
   const fileRef = useRef(null);
 
   const { handleImgChange, imgUrl } = usePrevImgHook();
+
+  const userImage = (arg) =>{
+    if(arg === 'user.png'){
+      return avatar
+    } else {
+      return arg
+    }
+  }
+
 
   return (
     <div className="container">
@@ -50,7 +57,10 @@ const Form = ({ fetchData, user, setProfile }) => {
           <div className="col-lg-6 col-md-9 col-sm-12 ms-3 mt-3 d-flex justify-content-center">
             <span>
               <img
-                src={imgUrl || fetchData.profilePic || avatar}
+                src={
+                  imgUrl || userImage(fetchData.profilePic) 
+                }
+                defaultValue={avatar}
                 alt="profile pic"
                 style={{
                   borderRadius: "50%",
@@ -122,7 +132,7 @@ const Form = ({ fetchData, user, setProfile }) => {
               className="d-flex justify-content-center"
               style={{
                 borderTop: "0.5px solid grey",
-                width: "100%"
+                width: "100%",
               }}
             >
               <button

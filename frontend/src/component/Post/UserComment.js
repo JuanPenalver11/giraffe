@@ -46,7 +46,7 @@ const UserComment = ({ fetchData, handleDeletePost, handleModifyComment }) => {
             <div className="user-info d-flex" style={{ width: "100% " }}>
               <div className="user-img">
                 <img
-                  src={comment.userProfilePic || avatar}
+                  src={comment.userProfilePic === 'user.png' ? avatar : comment.userProfilePic}
                   alt="user pic"
                   style={{
                     borderRadius: "50%",

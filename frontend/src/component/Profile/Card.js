@@ -39,7 +39,7 @@ const Card = ({ fetchData }) => {
           <div className="col-lg-6 col-md-9 col-sm-12 ms-3 mt-3 d-flex justify-content-center">
             <span>
               <img
-                src={fetchData.profilePic || avatar}
+                src={fetchData.profilePic === 'user.png' ? avatar : fetchData.profilePic }
                 alt=""
                 style={{
                   borderRadius: "50%",
