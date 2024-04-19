@@ -10,6 +10,7 @@ import userRoutes from "./routes/userRoutes.js";
 import postRoutes from "./routes/postRoutes.js";
 import resetPasswordRoutes from "./routes/resetPasswordRoutes.js";
 
+
 const app = express();
 
 dotenv.config();
@@ -23,6 +24,8 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
+
+
 //middlewares
 app.use(express.json({ limit: "60mb" }));
 app.use(express.urlencoded({ extended: true }));
@@ -32,6 +35,7 @@ app.use(cors({ origin: "http://localhost:3000", credentials: true }));
 app.use("/api/user", userRoutes);
 app.use("/api/post", postRoutes);
 app.use("/api/reset", resetPasswordRoutes);
+
 
 const PORT = process.env.PORT;
 

@@ -1,4 +1,5 @@
 import User from "../models/userModel.js";
+import Post from "../models/postModel.js";
 import bcrypt from "bcrypt";
 import { createToken } from "../utils/tokenAndCookie.js";
 import { v2 as cloudinary } from "cloudinary";
@@ -44,7 +45,6 @@ export const login = async (req, res) => {
   //request info from body
   const { username, password } = req.body;
   try {
-  
     //look for user
     const user = await User.findOne({ username });
     //if user doesn't exist
@@ -166,6 +166,22 @@ export const deleteUser = async (req, res) => {
         user.profilePic.split("/").pop().split(".")[0]
       );
     }
+    //find posts for that user
+    let posts = await Post.find({ postedBy: id });
+    //delete it post and delete user
+    for (let post of posts) {
+      try {
+        if (post.postimg) {
+          await cloudinary.uploader.destroy(
+            post.postimg.split("/").pop().split(".")[0]
+          );
+        }
+        await Post.findByIdAndDelete(post.id);
+      } catch (err) {
+        res.status(400).json({ error: err.message });
+      }
+    }
+
     //find user and delete
     await User.findByIdAndDelete(userId);
 
@@ -184,5 +200,3 @@ export const logout = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
-
-
