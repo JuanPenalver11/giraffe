@@ -10,8 +10,6 @@ const Navbar = ({profile}) => {
 
   const user = useRecoilValue(userAtom);
 
-  console.log(user)
-
   const userLocal = JSON.parse(localStorage.getItem("user"));
   
   const [userName, setUserName] = useState(userLocal?.username );

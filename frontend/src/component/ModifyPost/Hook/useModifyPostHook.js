@@ -7,12 +7,11 @@ import { useRecoilValue } from "recoil";
 import { userAtom } from "../../../atoms/userAtom";
 
 const useModifyPostHook = ({ idpost, fetchData }) => {
-  const [imgPost, setImgPost] = useState();
+  const [imgPost, setImgPost] = useState(fetchData.postimg);
   const [titlePost, setTitlePost] = useState(fetchData.posttitle);
   const [bodyPost, setBodyPost] = useState(fetchData.postbody);
   const [categoryPost, setCategoryPost] = useState(fetchData.postcategory);
 
-  console.log(titlePost)
 
   const [loading, setLoading] = useState(false);
 

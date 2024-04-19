@@ -23,7 +23,7 @@ const SignupPage = () => {
     setLoading(true);
 
     const data = {
-      username: username,
+      username: username.toLowerCase().split(' ').join(''),
       email: email,
       password: password,
     };

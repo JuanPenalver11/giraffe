@@ -22,14 +22,13 @@ const Form = ({ fetchData, user, setProfile }) => {
 
   const { handleImgChange, imgUrl } = usePrevImgHook();
 
-  const userImage = (arg) =>{
-    if(arg === 'user.png'){
-      return avatar
+  const userImage = (arg) => {
+    if (arg === "user.png") {
+      return avatar;
     } else {
-      return arg
+      return arg;
     }
-  }
-
+  };
 
   return (
     <div className="container">
@@ -57,9 +56,7 @@ const Form = ({ fetchData, user, setProfile }) => {
           <div className="col-lg-6 col-md-9 col-sm-12 ms-3 mt-3 d-flex justify-content-center">
             <span>
               <img
-                src={
-                  imgUrl || userImage(fetchData.profilePic) 
-                }
+                src={imgUrl || userImage(fetchData.profilePic)}
                 defaultValue={avatar}
                 alt="profile pic"
                 style={{
@@ -87,7 +84,10 @@ const Form = ({ fetchData, user, setProfile }) => {
                   type="file"
                   hidden
                   ref={fileRef}
-                  onChange={handleImgChange}
+                  onChange={(e) => {
+                    handleImgChange(e);
+                    setImage(imgUrl);
+                  }}
                 />
               </div>
               <div className="send-img mt-5">

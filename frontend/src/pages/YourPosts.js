@@ -9,6 +9,7 @@ import Spinner from "../component/Spinner";
 import { userAtom } from "../atoms/userAtom";
 
 const YourPosts = () => {
+  
   const [fetchData, setFetchData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [deletePost, setDeletePost] = useState(false);
@@ -39,8 +40,8 @@ const YourPosts = () => {
     setDeletePost((prev) => !prev);
   };
 
+  const userPosts= fetchData.filter((data) => data.postedBy === user._id);
 
-  const userPosts = fetchData.filter((data) => data.postedBy === user._id);
 
   return (
     <div className="container">
@@ -67,7 +68,7 @@ const YourPosts = () => {
           
           {loading ? (
             <Spinner />
-          ) : userPosts.length === 0 ? (<h1 style={{ color: "white", margin:'200px'}}>You dont' have Post.</h1>) : (
+          ) : userPosts && userPosts.length === 0 ? (<h1 style={{ color: "white", margin:'200px'}}>You don't have Post.</h1>) : (
             <Card
               userPosts={userPosts}
               handleDeletePost={handleDeletePost}

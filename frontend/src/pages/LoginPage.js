@@ -3,6 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import { useSnackbar } from "notistack";
+import { Link } from "react-router-dom";
 
 //recoil
 import { userAtom } from "../atoms/userAtom";
@@ -24,7 +25,10 @@ const LoginPage = () => {
   const authUser = async (e) => {
     e.preventDefault();
 
-    const data = { username, password };
+    const data = {
+      username: username.toLowerCase().split(" ").join(""),
+      password,
+    };
 
     setLoading(true);
 
@@ -53,10 +57,7 @@ const LoginPage = () => {
         style={{ marginTop: "10%" }}
       >
         <div className="col-lg-4">
-          <form
-            className="login shadow p-3 mb-5 rounded"
-            onSubmit={authUser}
-          >
+          <form className="login shadow p-3 mb-5 rounded" onSubmit={authUser}>
             <div className="mb-3 mt-3">
               <label htmlFor="email" className="form-label">
                 <b>UserName:</b>
@@ -85,7 +86,6 @@ const LoginPage = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
-
               />
             </div>
             <div className="form-check mb-3">
@@ -95,12 +95,15 @@ const LoginPage = () => {
                   type="checkbox"
                   name="remember"
                 />{" "}
-               Remember me
+                Remember me
               </label>
             </div>
-            <button type="submit" className="btn btn-primary">
-              {loading ? <Spinner /> : "Log in"}
-            </button>
+            <div className="d-flex justify-content-between">
+              <button type="submit" className="btn btn-primary">
+                {loading ? <Spinner /> : "Log in"}
+              </button>
+              <Link style={{ fontSize: "15px" }} to={'/checkemail'}>Reset Password</Link>
+            </div>
           </form>
         </div>
       </div>

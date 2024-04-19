@@ -12,6 +12,8 @@ import CreatePost from "./pages/CreatePost";
 import Profile from "./pages/Profile";
 import ModifyProfile from "../src/component/Profile/ModifyProfile";
 import ModifyYourPost from "./pages/ModifyYourPost";
+import CheckEmail from "./pages/CheckEmail";
+import ResetPassword from "./pages/ResetPassword";
 //component
 import Navbar from "./component/Navbar";
 import Footer from "./component/Footer";
@@ -34,6 +36,8 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/:category" element={<Home />} />
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/checkemail" element={<CheckEmail />} />
+        <Route path="/resetpassword/:id/:token" element={<ResetPassword />} />
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/post/:idpost" element={user ? <Post /> : <Home />} />
         <Route path="/profile" element={user ? <Profile /> : <Home />} />
