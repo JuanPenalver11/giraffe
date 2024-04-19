@@ -3,7 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useSnackbar } from "notistack";
 
-//component
+// Component
 import Spinner from "../component/Spinner";
 
 const SignupPage = () => {
@@ -12,7 +12,8 @@ const SignupPage = () => {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
-  //toast
+
+  // Toast
   const { enqueueSnackbar } = useSnackbar();
 
   const navigate = useNavigate();
@@ -20,10 +21,11 @@ const SignupPage = () => {
   const createUser = async (e) => {
     e.preventDefault();
 
+
     setLoading(true);
 
     const data = {
-      username: username.toLowerCase().split(' ').join(''),
+      username: username.toLowerCase().split(" ").join(""),
       email: email,
       password: password,
     };
@@ -39,14 +41,13 @@ const SignupPage = () => {
       navigate("/login");
     } catch (error) {
       enqueueSnackbar(error.response.data.error, { variant: "error" });
-      setLoading(false);
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="container-fluid h-100" >
+    <div className="container-fluid h-100">
       <div
         className="row justify-content-center h-100"
         style={{ marginTop: "10%" }}
@@ -74,7 +75,7 @@ const SignupPage = () => {
             </div>
             <div className="mb-3 mt-3">
               <label htmlFor="email" className="form-label">
-              <b>Email:</b>
+                <b>Email:</b>
               </label>
               <input
                 type="email"
@@ -86,18 +87,17 @@ const SignupPage = () => {
                   setEmail(e.target.value);
                 }}
                 required
-
               />
             </div>
             <div className="mb-3">
-              <label htmlFor="pwd" className="form-label">
-              <b>Password:</b>
+              <label htmlFor="reset-pwd" className="form-label">
+                <b>Password:</b>
               </label>
               <input
                 type="password"
                 className="form-control"
-                id="pwd"
-                placeholder="Enter password"
+                id="reset-pwd"
+                placeholder="Repeat password"
                 value={password}
                 onChange={(e) => {
                   setPassword(e.target.value);
@@ -105,7 +105,11 @@ const SignupPage = () => {
                 required
               />
             </div>
-            <button type="submit" className="btn btn-primary">
+
+            <button
+              type="submit"
+              className="btn btn-primary"
+            >
               {loading ? <Spinner /> : "Sign up"}
             </button>
           </form>
