@@ -2,7 +2,7 @@ import User from "../models/userModel.js";
 import bcrypt from "bcrypt";
 import { createToken } from "../utils/tokenAndCookie.js";
 import { v2 as cloudinary } from "cloudinary";
-const avatar = 'user.png'
+const avatar = "user.png";
 
 //////////////////////////////////////////////////////////////////////////////
 export const signup = async (req, res) => {
@@ -26,10 +26,10 @@ export const signup = async (req, res) => {
 
     //else create user
     const newUser = await User.create({
-      username: username.toLowerCase(),
-      email: email.toLowerCase(),
+      username: username,
+      email: email,
       password: hashedPassword,
-      profilePic: avatar
+      profilePic: avatar,
     });
     //response
     res
@@ -44,6 +44,7 @@ export const login = async (req, res) => {
   //request info from body
   const { username, password } = req.body;
   try {
+  
     //look for user
     const user = await User.findOne({ username });
     //if user doesn't exist
@@ -77,35 +78,59 @@ export const getUser = async (req, res) => {
 };
 //////////////////////////////////////////////////////////////////////////////
 export const modifyUser = async (req, res) => {
-  //get id from params
+  // Get id from params
   const { id } = req.params;
-  //get info from body
+  // Get info from body
   const { username, email, password } = req.body;
-  //get picture from body
+  // Get picture from body
   let { profilePic } = req.body;
-  //get id from token
+  // Get id from token
   const userId = req.user._id;
   try {
-    //does user exist ?
+    // Does user exist ?
     const user = await User.findById(userId);
     if (!user) return res.status(404).json({ error: "User not found" });
-    //check that id token is the same has id params
+    // Check that id token is the same as id params
     if (id !== userId.toString())
       return res.status(400).json({ error: "Unauthorized" });
-    //define hashedPassword outside the if statement
+    // Define hashedPassword outside the if statement
     let hashedPassword = user.password;
-    //check if there is a new password to hash
+    // Check if there is a new password to hash
     if (password) {
       const salt = await bcrypt.genSalt(10);
       hashedPassword = await bcrypt.hash(password, salt);
     }
 
-  
-    //then upload new picture
-    const uploadedResponse = await cloudinary.uploader.upload(profilePic);
-    profilePic = uploadedResponse.secure_url;
+    // Modify img
+    if (profilePic && profilePic !== user.profilePic) {
+      if (user.profilePic) {
+        await cloudinary.uploader.destroy(
+          user.profilePic.split("/").pop().split(".")[0]
+        );
+      }
+      const uploadedResponse = await cloudinary.uploader.upload(profilePic);
+      profilePic = uploadedResponse.secure_url;
+    } else {
+      profilePic = user.profilePic;
+    }
 
-    //update user
+    // Checkers
+    const existingUsername = await User.findOne({ username });
+    const existingEmail = await User.findOne({ email });
+
+    if (existingUsername && existingUsername._id.toString() === userId) {
+      username = existingUsername;
+    } else if (existingUsername && existingUsername._id.toString() !== id) {
+      return res.status(400).json({ error: "Username already exists" });
+    }
+
+    if (existingEmail && existingEmail._id.toString() === userId) {
+      username = existingEmail;
+    } else if (existingEmail && existingEmail._id.toString() !== id) {
+      return res.status(400).json({ error: "Email already exists" });
+    }
+
+    // Update user
     const updateUser = await User.findByIdAndUpdate(
       id,
       {
@@ -116,7 +141,8 @@ export const modifyUser = async (req, res) => {
       },
       { new: true }
     );
-    res.status(200).json({ updateUser });
+
+    res.status(200).json(updateUser);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -134,6 +160,12 @@ export const deleteUser = async (req, res) => {
     //check id token with id params
     if (id !== userId.toString())
       return res.status(400).json({ error: "Unauthorized" });
+    //delete user picture from cloudinary
+    if (user.profilePic) {
+      await cloudinary.uploader.destroy(
+        user.profilePic.split("/").pop().split(".")[0]
+      );
+    }
     //find user and delete
     await User.findByIdAndDelete(userId);
 
@@ -152,3 +184,5 @@ export const logout = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+
+

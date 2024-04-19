@@ -51,19 +51,36 @@ export const createPost = async (req, res) => {
     if (!user) {
       return res.status(400).json({ error: "Unauthorized" });
     }
-    //check length postitle
-    if (posttitle?.length > 40) {
+
+    const existingTitle = await Post.findOne({posttitle})
+    const existingBody = await Post.findOne({postbody})
+
+    //checkers
+    if (posttitle && posttitle.length > 40) {
       return res
         .status(400)
         .json({ error: "Post title cannot be longer than 40 characters" });
     }
+    
+    if(existingTitle){
+      return res.status(400).json({ error: "This Post title can be found in another post, please change it." });
+    }
+
+    if(existingBody){
+      return res.status(400).json({ error: "This Post body can be found in another post, please change it." });
+
+    }
+
     if (!posttitle) {
-      return res.status(400).json({ error: "Please, give a title to your post" });
+      return res
+        .status(400)
+        .json({ error: "Please, give a title to your post" });
     }
     if (!postcategory) {
       return res.status(400).json({ error: "A category must be selected" });
     }
-    
+   
+
     //then upload new picture
     if (!postimg) {
       return res.status(400).json({ error: "Please, upload an image" });
@@ -105,12 +122,27 @@ export const modifyPost = async (req, res) => {
     //check user auth
     if (user._id.toString() !== req.user._id.toString())
       return res.status(400).json({ error: "Unauthorized" });
-    //check title legth
+
+    const existingTitle = await Post.findOne({ posttitle });
+
+    const existingBody = await Post.findOne({postbody})
+
+    //checkers 
     if (posttitle && posttitle.length > 40) {
       return res
         .status(400)
         .json({ error: "Post title cannot be longer than 40 characters" });
     }
+
+    if (existingTitle && existingTitle._id.toString() !== idpost) {
+      return res.status(400).json({ error: "This Post title can be found in another post, please change it." });
+    }
+
+    if(existingBody && existingBody._id.toString() !== idpost){
+      return res.status(400).json({ error: "This Post body can be found in another post, please change it." });
+
+    }
+
 
     //modify image
     if (postimg && postimg !== post.postimg) {
@@ -121,8 +153,8 @@ export const modifyPost = async (req, res) => {
       }
       const uploadedResponse = await cloudinary.uploader.upload(postimg);
       postimg = uploadedResponse.secure_url;
-    } else{
-      postimg = post.image
+    } else {
+      postimg = post.postimg;
     }
 
     //update post
@@ -156,6 +188,12 @@ export const deletePost = async (req, res) => {
     //check user auth
     if (user._id.toString() !== req.user._id.toString()) {
       return res.status(400).json({ error: "Unauthorized" });
+    }
+    //delete pictures from cloudinary
+    if (post.postimg) {
+      await cloudinary.uploader.destroy(
+        post.postimg.split("/").pop().split(".")[0]
+      );
     }
     //delete
     await Post.findByIdAndDelete(idpost);

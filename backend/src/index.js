@@ -8,7 +8,7 @@ import { dbConnect } from "./utils/dbConnection.js";
 //routes
 import userRoutes from "./routes/userRoutes.js";
 import postRoutes from "./routes/postRoutes.js";
-
+import resetPasswordRoutes from "./routes/resetPasswordRoutes.js";
 
 const app = express();
 
@@ -31,6 +31,7 @@ app.use(cors({ origin: "http://localhost:3000", credentials: true }));
 //routes
 app.use("/api/user", userRoutes);
 app.use("/api/post", postRoutes);
+app.use("/api/reset", resetPasswordRoutes);
 
 const PORT = process.env.PORT;
 

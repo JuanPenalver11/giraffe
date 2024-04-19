@@ -16,7 +16,32 @@ export const authUser = async (req, res, next) => {
     const user = await User.findById(decoded.userId).select("-password");
 
     if (!user) {
-      return res.status(401).json({ error: "User not found" });
+      return res.status(401).json({ error: "User not found motherfucker" });
+    }
+
+    req.user = user;
+
+    next();
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+export const authResetPassword = async (req, res, next) => {
+  const { token } = req.params;
+
+  if (!token) {
+    return res.status(401).json({ error: "Unauthorized" });
+  }
+
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+    const user = await User.findById(decoded.userId).select("-password");
+
+    if (!user) {
+      return res.status(401).json({ error: "User not found motherfucker" });
     }
 
     req.user = user;

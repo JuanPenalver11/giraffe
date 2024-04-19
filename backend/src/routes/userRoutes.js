@@ -26,4 +26,6 @@ route.patch("/update/:id", authUser, modifyUser);
 
 route.delete("/delete/:id", authUser, deleteUser);
 
+
+
 export default route;
