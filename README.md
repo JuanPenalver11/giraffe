@@ -55,10 +55,8 @@ the pass with the password provided by google.
 if you struggle to find App Passwords after activating the 2-step verifications. Use the following link 
 'https://myaccount.google.com/apppasswords'
 
-=======
 
 * utils/dbConnection.js replace proccess.env with your onw Mongo URI. 
->>>>>>> 6abbf6717d52f2fd79b9b98d1ced4c4db8145571
 
 Once all dependencies installed and all process.env changed 
 
