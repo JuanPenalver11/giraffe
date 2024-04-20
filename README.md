@@ -24,7 +24,7 @@
 
  CLOUDINARY API for storage purpose
 
- ##Getting started 
+ ## Getting started 
 
  Install Dependencies 
 
