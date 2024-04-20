@@ -43,7 +43,6 @@ and secret.
 * index.js change PORT as required
 
 * index.js change CORS to your frontend localhost
-<<<<<<< HEAD
 
 * utils/dbConnection.js replace proccess.env with your onw Mongo URI. 
 
