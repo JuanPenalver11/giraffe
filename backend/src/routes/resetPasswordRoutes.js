@@ -4,7 +4,7 @@ import {
   forgotPassword,
   userAuthorized,
   resetPassword,
-} from "../controllers/resertPassword.js";
+} from "../controllers/resetPassword.js";
 //middleware
 import { authResetPassword } from "../middleware/authUser.js";
 
