@@ -15,7 +15,7 @@ const ResetPassword = () => {
 
   const { token } = useParams();
 
-  const { navigate } = useNavigate();
+  const navigate = useNavigate();
 
   const handleResetPassword = async (e) => {
     e.preventDefault();
@@ -29,10 +29,10 @@ const ResetPassword = () => {
     try {
       const response = await axios.post(
         `https://l4rnrz4l-8000.asse.devtunnels.ms/api/reset/${id}/${token}`,
-        data 
+        data
       );
-      if (response && response.data) {
-        enqueueSnackbar(response.data.message, { variant: "success" });
+      if (response) {
+        enqueueSnackbar(response.data, { variant: "success" });
         navigate("/login");
       }
     } catch (error) {
