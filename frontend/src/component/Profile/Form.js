@@ -112,7 +112,7 @@ const Form = ({ fetchData, user, setProfile }) => {
                 type="text"
                 id="username"
                 defaultValue={fetchData.username}
-                style={{ padding: "10px", width: "100%" }}
+                style={{ padding: "10px", width: "100%", borderRadius:'10px'}}
                 onChange={(e) => setUsername(e.target.value)}
               />
             </div>
@@ -124,7 +124,7 @@ const Form = ({ fetchData, user, setProfile }) => {
                 type="text"
                 id="email"
                 defaultValue={fetchData.email}
-                style={{ padding: "10px", width: "100%" }}
+                style={{ padding: "10px", width: "100%", borderRadius:'10px'}}
                 onChange={(e) => setEmail(e.target.value)}
               />
             </div>

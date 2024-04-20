@@ -8,11 +8,9 @@ const CheckEmail = () => {
   const [loading, setLoading] = useState(false);
   const [emailchecked, setEmailChecked] = useState("");
 
-
   const { enqueueSnackbar } = useSnackbar();
 
   const handleCheckEmail = async (e) => {
-
     e.preventDefault();
 
     setLoading(true);
@@ -22,13 +20,13 @@ const CheckEmail = () => {
     try {
       const response = await axios.post(
         "https://l4rnrz4l-8000.asse.devtunnels.ms/api/reset/",
-        data
+        data 
       );
       enqueueSnackbar(response.data.message, { variant: "success" });
     } catch (error) {
       enqueueSnackbar(error.response.data.error, { variant: "alert" });
-    } finally{
-        setLoading(false)
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -39,7 +37,10 @@ const CheckEmail = () => {
         style={{ marginTop: "10%" }}
       >
         <div className="col-lg-4">
-          <form className="login shadow p-3 mb-5 rounded" onSubmit={handleCheckEmail}>
+          <form
+            className="login shadow p-3 mb-5 rounded"
+            onSubmit={handleCheckEmail}
+          >
             <div className="mb-3 mt-3">
               <label htmlFor="email" className="form-label">
                 <b>Introduce your Email:</b>

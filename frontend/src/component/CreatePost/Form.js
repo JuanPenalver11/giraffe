@@ -103,6 +103,7 @@ const Form = () => {
                 width: "250px",
                 height: "250px",
                 border: "1px solid black",
+                borderRadius:'10px'
               }}
             />
           </span>
@@ -116,7 +117,7 @@ const Form = () => {
                   fileRef.current.click();
                 }}
               >
-                <img src={upload} alt="upload" style={{ width: "25px" }} />{" "}
+                <img src={upload} alt="upload" style={{ width: "25px"}} />{" "}
               </button>
               <input
                 className="form-control"
@@ -131,6 +132,7 @@ const Form = () => {
                   e.preventDefault();
                   SetImgPost(imgUrl);
                 }}
+                required
               >
                 <img src={paper} alt="upload" style={{ width: "25px" }} />{" "}
               </button>
@@ -144,7 +146,7 @@ const Form = () => {
           <input
             type="text"
             id="posttTitle"
-            style={{ padding: "10px" }}
+            style={{ padding: "10px", borderRadius:'10px'}}
             onChange={(e) => {
               SetTitlePost(e.target.value);
             }}
@@ -158,7 +160,7 @@ const Form = () => {
           <textarea
             type="text"
             id="postBody"
-            style={{ padding: "10px" }}
+            style={{ padding: "10px", borderRadius:'10px'}}
             onChange={(e) => {
               SetBodyPost(e.target.value);
             }}

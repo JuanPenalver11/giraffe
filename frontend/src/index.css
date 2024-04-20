@@ -7,6 +7,14 @@ body {
   background-position: bottom;
   height: 100%;
 }
+/*App*/
+.App{
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+
 /*Navbar*/
 .navbar {
   background-color: rgb(250, 205, 114) !important;

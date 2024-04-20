@@ -68,7 +68,7 @@ const YourPosts = () => {
           
           {loading ? (
             <Spinner />
-          ) : userPosts && userPosts.length === 0 ? (<h1 style={{ color: "white", margin:'200px'}}>You don't have Post.</h1>) : (
+          ) : userPosts && userPosts.length === 0 ? (<h1 style={{ color: "white"}}>You don't have Post.</h1>) : (
             <Card
               userPosts={userPosts}
               handleDeletePost={handleDeletePost}

@@ -64,7 +64,7 @@ const Form = () => {
                 <img
                   src={giraffe}
                   alt="giraffe-icon"
-                  style={{ width: "70px" }}
+                  style={{ width: "70px"}}
                 />
               </span>
             </div>
@@ -80,6 +80,7 @@ const Form = () => {
                     width: "250px",
                     height: "250px",
                     border: "1px solid black",
+                    borderRadius:'10px'
                   }}
                 />
               </span>
@@ -121,7 +122,7 @@ const Form = () => {
               <input
                 type="text"
                 id="posttTitle"
-                style={{ padding: "10px" }}
+                style={{ padding: "10px", borderRadius:'10px'}}
                 defaultValue={fetchData.posttitle}
                 onChange={(e) => {
                   setTitlePost(e.target.value);
@@ -135,7 +136,7 @@ const Form = () => {
               <textarea
                 type="text"
                 id="postBody"
-                style={{ padding: "10px" }}
+                style={{ padding: "10px", borderRadius:'10px'}}
                 defaultValue={fetchData.postbody}
                 onChange={(e) => {
                   setBodyPost(e.target.value);

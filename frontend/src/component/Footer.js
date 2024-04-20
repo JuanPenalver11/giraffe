@@ -8,9 +8,7 @@ const Footer = () => {
         background: "rgb(243, 159, 149)",
         width: "100%",
         borderTop: "1px solid black",
-        marginTop: "110px",
-        flexShrink: "0",
-        bottom: "0",
+        marginTop:'auto'
       }}
       className="text-center"
     >

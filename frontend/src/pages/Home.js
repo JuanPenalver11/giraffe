@@ -61,7 +61,7 @@ const Home = () => {
           {loading ? (
             <Spinner />
           ) : fetchData.length === 0 ? (
-            <h1 style={{color:'white', margin:'200px'}}>There is no post available</h1>
+            <h1 style={{color:'white'}}>There is no post available</h1>
           ) : (
             <Card fetchData={fetchData} />
           )}
