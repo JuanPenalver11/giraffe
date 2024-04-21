@@ -9,7 +9,7 @@ import avatar from "../../images/user.png";
 import paper from "../../images/paper.png";
 //hook
 import usePrevImgHook from "../../Hook/usePrevImgHook";
-import RenderPosthook from "./Hook/RenderPosthook";
+import useRenderPosthook from "./Hook/RenderPosthook";
 import useModifyPostHook from "./Hook/useModifyPostHook";
 //component
 import Spinner from "../Spinner";
@@ -17,7 +17,7 @@ import Spinner from "../Spinner";
 const Form = () => {
   const { idpost } = useParams();
 
-  const { loadingFetch, fetchData } = RenderPosthook({ idpost });
+  const { loadingFetch, fetchData } = useRenderPosthook({ idpost });
 
   const [selectedCategory, setSelectedCategory] = useState(fetchData.category);
 

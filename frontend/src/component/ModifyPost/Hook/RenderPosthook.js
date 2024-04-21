@@ -3,7 +3,7 @@ import axios from "axios";
 import { useSnackbar } from "notistack";
 
 
-const RenderPosthook = ({idpost}) => {
+const useRenderPosthook = ({idpost}) => {
   const [fetchData, setFetchData] = useState({});
   const [loadingFetch, setLoadingFetch] = useState(false);
 
@@ -32,4 +32,4 @@ const RenderPosthook = ({idpost}) => {
   return { fetchData, loadingFetch };
 };
 
-export default RenderPosthook;
+export default useRenderPosthook;
