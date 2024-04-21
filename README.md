@@ -46,10 +46,13 @@ and secret.
 
 * utils/dbConnection.js replace proccess.env with your onw Mongo URI. 
 
-* controllers/resetPassword.js - forgotPassword function  | change user and pass process.env 
-In order to do go into 'https://knowledge.workspace.google.com/kb/how-to-create-app-passwords-000009237'
-and follow the indications provided. Replace user with the email you have created the app password and the 
-the pass with the password provided by google. 
+* controllers/resetPassword.js - forgotPassword function  | change 'user' and 'pass' process.env 
+
+In order to do you need to create an app password with Google. To do so, go into 'https://knowledge.workspace.google.com/kb/how-to-create-app-passwords-000009237'
+and follow the indications provided. 
+
+Replace 'user' with the email you have created the 'app password' and the 
+the 'pass' with the password provided by google. 
 
 if you struggle to find App Passwords after activating the 2-step verifications. Use the following link 
 'https://myaccount.google.com/apppasswords'
